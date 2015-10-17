@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <RelativeLayout
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/carImage"
+                android:layout_width="@dimen/small_car_image_width"
+                android:layout_height="@dimen/small_car_image_width"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="@dimen/margin_medium" />
+
+            <TextView
+                android:id="@+id/carName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_marginBottom="0dp"
+                android:layout_toRightOf="@+id/carImage"
+                android:maxLength="15"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/Mariner"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/carPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/carName"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_marginTop="0dp"
+                android:layout_toRightOf="@+id/carImage"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/green" />
+            
+            <TextView
+                android:id="@+id/seperator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/carName"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_marginTop="0dp"
+                android:layout_toRightOf="@+id/carPrice"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="|"
+                />
+
+            <RatingBar
+                android:id="@+id/carRating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/carName"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_marginTop="0dp"
+                android:layout_toRightOf="@+id/seperator"
+                android:layout_alignTop="@+id/seperator"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="0.1" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

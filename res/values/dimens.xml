@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="margin_small"> 5dp </dimen>
+    <dimen name="margin_medium"> 10dp </dimen>
+    <dimen name="margin_large"> 15dp </dimen>
+    <dimen name="text_small"> 12sp </dimen>
+    <dimen name="text_medium"> 15sp </dimen>
+    <dimen name="text_large"> 20sp </dimen>
+    <dimen name="small_car_image_height">100dp</dimen>
+    <dimen name="small_car_image_width">50dp</dimen>
+    <dimen name="big_car_image_height">200dp</dimen>
+    <dimen name="big_car_image_width">100dp</dimen>
+    <dimen name="currentLocationViewHeight">50dp</dimen>
+
+</resources>
