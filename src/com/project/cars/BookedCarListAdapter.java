@@ -39,10 +39,9 @@ public class BookedCarListAdapter extends ArrayAdapter<BookedCar> {
 
 	}
 
-	public View getView(final int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View v, ViewGroup parent) {
 
-		// assign the view we are converting to a local variable
-		View v = convertView;
+		ViewHolder holder;
 
 		bookCarSavedData = getContext().getSharedPreferences(
 				getContext().getResources().getString(
@@ -53,21 +52,27 @@ public class BookedCarListAdapter extends ArrayAdapter<BookedCar> {
 
 		editor = bookCarSavedData.edit();
 
-		// first check to see if the view is null. if so, we have to inflate it.
-		// to inflate it basically means to render, or show, the view.
 		if (v == null) {
 			LayoutInflater inflater = (LayoutInflater) getContext()
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = inflater.inflate(R.layout.booked_car_list_item, null);
+
+			holder = new ViewHolder();
+
+			holder.carName = (TextView) v.findViewById(R.id.carName);
+
+			holder.cancel = (Button) v.findViewById(R.id.cancel);
+
+			v.setTag(holder);
+
+		} else {
+
+			holder = (ViewHolder) v.getTag();
 		}
 
 		BookedCar i = objects.get(position);
 
 		if (i != null) {
-
-			TextView carName = (TextView) v.findViewById(R.id.carName);
-
-			Button cancel = (Button) v.findViewById(R.id.cancel);
 
 			String name = Car.getCarById(i.getCarId()).getCarName();
 
@@ -78,7 +83,7 @@ public class BookedCarListAdapter extends ArrayAdapter<BookedCar> {
 			String dateString = d.get(Calendar.DAY_OF_MONTH) + "/"
 					+ (d.get(Calendar.MONTH) + 1) + "/" + d.get(Calendar.YEAR);
 
-			carName.setText(name + " (" + dateString + ")");
+			holder.carName.setText(name + " (" + dateString + ")");
 
 			if (d.before(now)
 					&& !(d.get(Calendar.DAY_OF_MONTH) == now
@@ -86,14 +91,14 @@ public class BookedCarListAdapter extends ArrayAdapter<BookedCar> {
 							.get(Calendar.MONTH) == now.get(Calendar.MONTH))
 					&& d.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
 
-				cancel.setText("Completed");
-				cancel.setEnabled(false);
+				holder.cancel.setText("Completed");
+				holder.cancel.setEnabled(false);
 
 			}
 
 			else {
 
-				cancel.setOnClickListener(new OnClickListener() {
+				holder.cancel.setOnClickListener(new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
@@ -116,8 +121,15 @@ public class BookedCarListAdapter extends ArrayAdapter<BookedCar> {
 
 		}
 
-		// the view must be returned to our activity
 		return v;
+
+	}
+
+	static class ViewHolder {
+
+		TextView carName;
+
+		Button cancel;
 
 	}
 }

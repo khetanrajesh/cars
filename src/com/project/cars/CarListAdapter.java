@@ -31,77 +31,65 @@ public class CarListAdapter extends ArrayAdapter<Car> {
 		this.objects = objects;
 	}
 
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View v, ViewGroup parent) {
 
-		// assign the view we are converting to a local variable
-		View v = convertView;
+		ViewHolder holder;
 
-		// first check to see if the view is null. if so, we have to inflate it.
-		// to inflate it basically means to render, or show, the view.
 		if (v == null) {
 			LayoutInflater inflater = (LayoutInflater) getContext()
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = inflater.inflate(R.layout.car_list_item, null);
+
+			holder = new ViewHolder();
+
+			holder.carName = (TextView) v.findViewById(R.id.carName);
+			holder.carImage = (ImageView) v.findViewById(R.id.carImage);
+			holder.carPrice = (TextView) v.findViewById(R.id.carPrice);
+
+			holder.carRating = (RatingBar) v.findViewById(R.id.carRating);
+
+			v.setTag(holder);
+		} else {
+
+			holder = (ViewHolder) v.getTag();
+
 		}
 
-		/*
-		 * Recall that the variable position is sent in as an argument to this
-		 * method. The variable simply refers to the position of the current
-		 * object in the list. (The ArrayAdapter iterates through the list we
-		 * sent it)
-		 * 
-		 * Therefore, i refers to the current Item object.
-		 */
 		Car i = objects.get(position);
 
 		if (i != null) {
 
-			// This is how you obtain a reference to the TextViews.
-			// These TextViews are created in the XML files we defined.
+			holder.carName.setText(i.getCarName());
 
-			TextView carName = (TextView) v.findViewById(R.id.carName);
-			ImageView carImage = (ImageView) v.findViewById(R.id.carImage);
-			TextView carPrice = (TextView) v.findViewById(R.id.carPrice);
+			holder.carPrice.setText("₹" + i.getCarPrice() + " per hr");
 
-			RatingBar carRating = (RatingBar) v.findViewById(R.id.carRating);
-			
+			final Bitmap bitmap = ci.getBitmapFromMemCache(i.getCarId() + "");
+			if (bitmap != null) {
 
-			// check to see if each individual textview is null.
-			// if not, assign some text!
-			if (carName != null) {
-				carName.setText(i.getCarName());
+				Log.d("ParcelListAdapter",
+						"Getting from cache image " + i.getCarId());
+				holder.carImage.setImageBitmap(bitmap);
+			} else {
+
+				imagedownloader.download(i.getCarImage(), holder.carImage,
+						i.getCarId() + "");
+
 			}
 
-			if (carPrice != null) {
-				carPrice.setText("₹" + i.getCarPrice() + " per hr");
-			}
-			if (carImage != null) {
-
-				final Bitmap bitmap = ci.getBitmapFromMemCache(i.getCarId()
-						+ "");
-				if (bitmap != null) {
-
-					Log.d("ParcelListAdapter",
-							"Getting from cache image " + i.getCarId());
-					carImage.setImageBitmap(bitmap);
-				} else {
-
-					imagedownloader.download(i.getCarImage(), carImage,
-							i.getCarId() + "");
-					
-				}
-			}
-			
-			if(carRating!=null){
-				
-				carRating.setRating(i.getCarRating());
-			}
-			
-			
+			holder.carRating.setRating(i.getCarRating());
 		}
 
-		// the view must be returned to our activity
 		return v;
+
+	}
+
+	static class ViewHolder {
+
+		TextView carName;
+		ImageView carImage;
+		TextView carPrice;
+
+		RatingBar carRating;
 
 	}
 
